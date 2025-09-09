@@ -54,6 +54,16 @@
     strong {
       color: #00B5E2;
     }
+
+    #guia-visual {
+      margin-top: 20px;
+    }
+
+    #guia-visual img {
+      max-width: 100%;
+      border: 2px solid #00B5E2;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -69,6 +79,11 @@
   <button onclick="gerar()">Gerar Orientações</button>
 
   <div id="resultado"></div>
+
+  <div id="guia-visual">
+    <h3>📌 Onde inserir cada informação (1 a 5)</h3>
+    <img src="Grupos de dados.png" alt="Guia visual Business Analytics">
+  </div>
 
   <script>
     const dados = {
@@ -107,13 +122,14 @@
       let info = dados[relatorio];
       resultado.innerHTML = `
         <h3>📊 Instruções para montar o relatório</h3>
-        <div class="campo"><strong>Grupo de Dados:</strong> ${info.grupo}</div>
-        <div class="campo"><strong>Linhas:</strong> ${info.linhas}</div>
-        <div class="campo"><strong>Colunas:</strong> ${info.colunas}</div>
-        <div class="campo"><strong>Métricas:</strong> ${info.metricas}</div>
-        <div class="campo"><strong>Filtros:</strong> ${info.filtros}</div>
+        <div class="campo"><strong>(1) Grupo de Dados:</strong> ${info.grupo}</div>
+        <div class="campo"><strong>(2) Linhas:</strong> ${info.linhas}</div>
+        <div class="campo"><strong>(3) Colunas:</strong> ${info.colunas}</div>
+        <div class="campo"><strong>(4) Métricas:</strong> ${info.metricas}</div>
+        <div class="campo"><strong>(5) Filtros:</strong> ${info.filtros}</div>
       `;
     }
   </script>
 </body>
 </html>
+

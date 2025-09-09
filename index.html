@@ -3,143 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Assistente de Relatórios - Business Analytics</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #121212;
-      color: #f1f1f1;
-      text-align: center;
-      margin: 0;
-      padding: 30px;
-    }
-
-    h2 {
-      color: #00B5E2;
-    }
-
-    select, button {
-      padding: 10px;
-      margin: 10px auto;
-      width: 80%;
-      max-width: 400px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-    }
-
-    button {
-      background: #00B5E2;
-      color: #fff;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    button:hover {
-      background: #008bb3;
-    }
-
-    #resultado {
-      margin-top: 30px;
-      padding: 20px;
-      background: #1e1e1e;
-      border-radius: 8px;
-      text-align: left;
-    }
-
-    .campo {
-      margin: 10px 0;
-    }
-
-    strong {
-      color: #00B5E2;
-    }
-
-    #guia-visual {
-      margin-top: 20px;
-    }
-
-    #guia-visual img {
-      max-width: 100%;
-      border: 2px solid #00B5E2;
-      border-radius: 8px;
-    }
-  </style>
+  <title>Assistente Business Analytics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h2>Assistente de Relatórios - Business Analytics</h2>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center">
 
-  <select id="grupo">
-    <option value="">Selecione um Grupo de Dados</option>
-    <option value="conversoes">Conversões</option>
-    <option value="ligacoes">Ligações</option>
-    <option value="respostas">Respostas</option>
-    <option value="leads">Leads</option>
-    <option value="atividades">Atividades</option>
-    <option value="dores">Dores</option>
-    <option value="produtos">Produtos</option>
-  </select>
+  <h1 class="text-3xl font-bold mb-6">Assistente Business Analytics</h1>
 
-  <button onclick="gerar()">Gerar Orientações</button>
+  <!-- Seletor de relatório -->
+  <div class="mb-6 w-full max-w-md">
+    <label for="reportType" class="block mb-2 text-lg">Selecione o tipo de relatório:</label>
+    <select id="reportType" class="w-full p-2 rounded bg-gray-800 border border-gray-700">
+      <option value="">-- Escolha --</option>
+      <option value="conversoes">Conversões</option>
+      <option value="ligacoes">Ligações</option>
+      <option value="respostas">Respostas</option>
+      <option value="leads">Leads</option>
+      <option value="atividades">Atividades</option>
+      <option value="dores">Dores</option>
+      <option value="produtos">Produtos</option>
+    </select>
+  </div>
 
-  <div id="resultado"></div>
+  <!-- Resultado -->
+  <div id="result" class="w-full max-w-3xl bg-gray-800 p-6 rounded shadow-lg hidden">
+    <h2 class="text-2xl font-semibold mb-4">Instruções para montar o relatório</h2>
+    <p><strong>Grupo de Dados:</strong> <span id="grupo"></span></p>
+    <p><strong>Linhas:</strong> <span id="linhas"></span></p>
+    <p><strong>Colunas:</strong> <span id="colunas"></span></p>
+    <p><strong>Métricas:</strong> <span id="metricas"></span></p>
+    <p><strong>Filtros:</strong> <span id="filtros"></span></p>
 
-  <div id="guia-visual">
-    <h3>📌 Onde inserir cada informação (1 a 5)</h3>
-    <img src="Grupos de dados.png" alt="Guia visual Business Analytics">
+    <div class="mt-6">
+      <img src="Grupos%20de%20dados.png" alt="Guia Business Analytics" class="rounded shadow-lg">
+    </div>
   </div>
 
   <script>
-    const grupos = {
+    const reportType = document.getElementById("reportType");
+    const result = document.getElementById("result");
+
+    // Elementos para preencher
+    const grupo = document.getElementById("grupo");
+    const linhas = document.getElementById("linhas");
+    const colunas = document.getElementById("colunas");
+    const metricas = document.getElementById("metricas");
+    const filtros = document.getElementById("filtros");
+
+    // Dados iniciais (placeholder, depois você alimenta com mais detalhes)
+    const instrucoes = {
       conversoes: {
-        nome: "Conversões",
-        metricas: ["Quantidade", "Lead Score"]
+        grupo: "Conversões",
+        linhas: "Exemplo: Etapa do funil",
+        colunas: "Exemplo: SDR responsável",
+        metricas: "Quantidade, Lead Score",
+        filtros: "Período, Equipe"
       },
       ligacoes: {
-        nome: "Ligações",
-        metricas: ["Quantidade de ligações", "Tempo de ligação"]
-      },
-      respostas: {
-        nome: "Respostas",
-        metricas: ["Quantidade de respostas"]
-      },
-      leads: {
-        nome: "Leads",
-        metricas: ["Quantidade de leads"]
-      },
-      atividades: {
-        nome: "Atividades",
-        metricas: ["Quantidade"]
-      },
-      dores: {
-        nome: "Dores",
-        metricas: ["Quantidade"]
-      },
-      produtos: {
-        nome: "Produtos",
-        metricas: ["Quantidade", "Valor"]
-      }
-    };
-
-    function gerar() {
-      let grupo = document.getElementById("grupo").value;
-      let resultado = document.getElementById("resultado");
-
-      if (!grupo) {
-        resultado.innerHTML = "<p>⚠️ Selecione um Grupo de Dados.</p>";
-        return;
-      }
-
-      let info = grupos[grupo];
-      resultado.innerHTML = `
-        <h3>📊 Instruções para montar o relatório</h3>
-        <div class="campo"><strong>(1) Grupo de Dados:</strong> ${info.nome}</div>
-        <div class="campo"><strong>(2) Linhas:</strong> Escolha o campo desejado (ex: Nome do SDR, Data, Produto, etc.)</div>
-        <div class="campo"><strong>(3) Colunas:</strong> Escolha como deseja agrupar (ex: Data, Semana, Mês...)</div>
-        <div class="campo"><strong>(4) Métricas disponíveis:</strong> ${info.metricas.join(", ")}</div>
-        <div class="campo"><strong>(5) Filtros:</strong> Período, SDR, Produto ou outros relevantes</div>
-      `;
-    }
-  </script>
-</body>
-</html>
+        grupo: "Ligações",
+        linhas: "Exemplo: Usuário",
+        colunas: "Exemplo: Resultado da ligação",
+        metricas: "Quantidade de ligações, Tempo de l

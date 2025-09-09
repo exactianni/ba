@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Relatórios - Business Analytics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #f1f1f1;
+      text-align: center;
+      margin: 0;
+      padding: 30px;
+    }
+
+    h2 {
+      color: #00B5E2;
+    }
+
+    select, button {
+      padding: 10px;
+      margin: 10px auto;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      background: #00B5E2;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #008bb3;
+    }
+
+    #resultado {
+      margin-top: 30px;
+      padding: 20px;
+      background: #1e1e1e;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .campo {
+      margin: 10px 0;
+    }
+
+    strong {
+      color: #00B5E2;
+    }
+  </style>
+</head>
+<body>
+  <h2>Assistente de Relatórios - Business Analytics</h2>
+
+  <select id="relatorio">
+    <option value="">Selecione um tipo de relatório</option>
+    <option value="noShow">No Show</option>
+    <option value="agendamentos">Agendamentos</option>
+    <option value="ligacoes">Ligações</option>
+  </select>
+
+  <button onclick="gerar()">Gerar Orientações</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    const dados = {
+      noShow: {
+        grupo: "Agenda",
+        linhas: "Nome do SDR",
+        colunas: "Data do Agendamento",
+        metricas: "Qtd de reuniões não realizadas",
+        filtros: "Período, SDR"
+      },
+      agendamentos: {
+        grupo: "Agenda",
+        linhas: "Nome do SDR",
+        colunas: "Semana/Mês",
+        metricas: "Qtd de agendamentos",
+        filtros: "Período, SDR"
+      },
+      ligacoes: {
+        grupo: "Atividade",
+        linhas: "Nome do SDR",
+        colunas: "Data da ligação",
+        metricas: "Qtd de ligações realizadas",
+        filtros: "Período, SDR"
+      }
+    };
+
+    function gerar() {
+      let relatorio = document.getElementById("relatorio").value;
+      let resultado = document.getElementById("resultado");
+
+      if (!relatorio) {
+        resultado.innerHTML = "<p>⚠️ Selecione um tipo de relatório.</p>";
+        return;
+      }
+
+      let info = dados[relatorio];
+      resultado.innerHTML = `
+        <h3>📊 Instruções para montar o relatório</h3>
+        <div class="campo"><strong>Grupo de Dados:</strong> ${info.grupo}</div>
+        <div class="campo"><strong>Linhas:</strong> ${info.linhas}</div>
+        <div class="campo"><strong>Colunas:</strong> ${info.colunas}</div>
+        <div class="campo"><strong>Métricas:</strong> ${info.metricas}</div>
+        <div class="campo"><strong>Filtros:</strong> ${info.filtros}</div>
+      `;
+    }
+  </script>
+</body>
+</html>

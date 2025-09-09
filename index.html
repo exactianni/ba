@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerador de Relatórios - Business Analytics</title>
+  <title>Assistente de Relatórios - Business Analytics</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -69,11 +69,15 @@
 <body>
   <h2>Assistente de Relatórios - Business Analytics</h2>
 
-  <select id="relatorio">
-    <option value="">Selecione um tipo de relatório</option>
-    <option value="noShow">No Show</option>
-    <option value="agendamentos">Agendamentos</option>
+  <select id="grupo">
+    <option value="">Selecione um Grupo de Dados</option>
+    <option value="conversoes">Conversões</option>
     <option value="ligacoes">Ligações</option>
+    <option value="respostas">Respostas</option>
+    <option value="leads">Leads</option>
+    <option value="atividades">Atividades</option>
+    <option value="dores">Dores</option>
+    <option value="produtos">Produtos</option>
   </select>
 
   <button onclick="gerar()">Gerar Orientações</button>
@@ -86,50 +90,56 @@
   </div>
 
   <script>
-    const dados = {
-      noShow: {
-        grupo: "Agenda",
-        linhas: "Nome do SDR",
-        colunas: "Data do Agendamento",
-        metricas: "Qtd de reuniões não realizadas",
-        filtros: "Período, SDR"
-      },
-      agendamentos: {
-        grupo: "Agenda",
-        linhas: "Nome do SDR",
-        colunas: "Semana/Mês",
-        metricas: "Qtd de agendamentos",
-        filtros: "Período, SDR"
+    const grupos = {
+      conversoes: {
+        nome: "Conversões",
+        metricas: ["Quantidade", "Lead Score"]
       },
       ligacoes: {
-        grupo: "Atividade",
-        linhas: "Nome do SDR",
-        colunas: "Data da ligação",
-        metricas: "Qtd de ligações realizadas",
-        filtros: "Período, SDR"
+        nome: "Ligações",
+        metricas: ["Quantidade de ligações", "Tempo de ligação"]
+      },
+      respostas: {
+        nome: "Respostas",
+        metricas: ["Quantidade de respostas"]
+      },
+      leads: {
+        nome: "Leads",
+        metricas: ["Quantidade de leads"]
+      },
+      atividades: {
+        nome: "Atividades",
+        metricas: ["Quantidade"]
+      },
+      dores: {
+        nome: "Dores",
+        metricas: ["Quantidade"]
+      },
+      produtos: {
+        nome: "Produtos",
+        metricas: ["Quantidade", "Valor"]
       }
     };
 
     function gerar() {
-      let relatorio = document.getElementById("relatorio").value;
+      let grupo = document.getElementById("grupo").value;
       let resultado = document.getElementById("resultado");
 
-      if (!relatorio) {
-        resultado.innerHTML = "<p>⚠️ Selecione um tipo de relatório.</p>";
+      if (!grupo) {
+        resultado.innerHTML = "<p>⚠️ Selecione um Grupo de Dados.</p>";
         return;
       }
 
-      let info = dados[relatorio];
+      let info = grupos[grupo];
       resultado.innerHTML = `
         <h3>📊 Instruções para montar o relatório</h3>
-        <div class="campo"><strong>(1) Grupo de Dados:</strong> ${info.grupo}</div>
-        <div class="campo"><strong>(2) Linhas:</strong> ${info.linhas}</div>
-        <div class="campo"><strong>(3) Colunas:</strong> ${info.colunas}</div>
-        <div class="campo"><strong>(4) Métricas:</strong> ${info.metricas}</div>
-        <div class="campo"><strong>(5) Filtros:</strong> ${info.filtros}</div>
+        <div class="campo"><strong>(1) Grupo de Dados:</strong> ${info.nome}</div>
+        <div class="campo"><strong>(2) Linhas:</strong> Escolha o campo desejado (ex: Nome do SDR, Data, Produto, etc.)</div>
+        <div class="campo"><strong>(3) Colunas:</strong> Escolha como deseja agrupar (ex: Data, Semana, Mês...)</div>
+        <div class="campo"><strong>(4) Métricas disponíveis:</strong> ${info.metricas.join(", ")}</div>
+        <div class="campo"><strong>(5) Filtros:</strong> Período, SDR, Produto ou outros relevantes</div>
       `;
     }
   </script>
 </body>
 </html>
-

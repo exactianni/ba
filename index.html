@@ -15,13 +15,10 @@
     <label for="reportType" class="block mb-2 text-lg">Selecione o tipo de relatório:</label>
     <select id="reportType" class="w-full p-2 rounded bg-gray-800 border border-gray-700">
       <option value="">-- Escolha --</option>
-      <option value="conversoes">Conversões</option>
-      <option value="ligacoes">Ligações</option>
-      <option value="respostas">Respostas</option>
-      <option value="leads">Leads</option>
-      <option value="atividades">Atividades</option>
-      <option value="dores">Dores</option>
-      <option value="produtos">Produtos</option>
+      <option value="noShow">Relatório de No Show</option>
+      <option value="conversaoSDR">Conversão por SDR</option>
+      <option value="ligacoesTempo">Tempo de Ligações</option>
+      <option value="leadsOrigem">Leads por Origem</option>
     </select>
   </div>
 
@@ -43,24 +40,65 @@
     const reportType = document.getElementById("reportType");
     const result = document.getElementById("result");
 
-    // Elementos para preencher
     const grupo = document.getElementById("grupo");
     const linhas = document.getElementById("linhas");
     const colunas = document.getElementById("colunas");
     const metricas = document.getElementById("metricas");
     const filtros = document.getElementById("filtros");
 
-    // Dados iniciais (placeholder, depois você alimenta com mais detalhes)
+    // Métricas por grupo de dados
+    const metricasPorGrupo = {
+      conversoes: "Quantidade, Lead Score",
+      ligacoes: "Quantidade de ligações, Tempo de ligação",
+      respostas: "Quantidade de respostas",
+      leads: "Quantidade de leads",
+      atividades: "Quantidade",
+      dores: "Quantidade",
+      produtos: "Quantidade, Valor"
+    };
+
+    // Relatórios de exemplo (cada um aponta para um grupo de dados)
     const instrucoes = {
-      conversoes: {
+      noShow: {
         grupo: "Conversões",
-        linhas: "Exemplo: Etapa do funil",
-        colunas: "Exemplo: SDR responsável",
-        metricas: "Quantidade, Lead Score",
+        linhas: "Etapa do funil",
+        colunas: "SDR responsável",
         filtros: "Período, Equipe"
       },
-      ligacoes: {
+      conversaoSDR: {
+        grupo: "Conversões",
+        linhas: "SDR responsável",
+        colunas: "Etapa",
+        filtros: "Data"
+      },
+      ligacoesTempo: {
         grupo: "Ligações",
-        linhas: "Exemplo: Usuário",
-        colunas: "Exemplo: Resultado da ligação",
-        metricas: "Quantidade de ligações, Tempo de l
+        linhas: "Usuário",
+        colunas: "Resultado da ligação",
+        filtros: "Período"
+      },
+      leadsOrigem: {
+        grupo: "Leads",
+        linhas: "Origem do lead",
+        colunas: "Etapa",
+        filtros: "Data"
+      }
+    };
+
+    reportType.addEventListener("change", () => {
+      const escolha = reportType.value;
+      if (escolha && instrucoes[escolha]) {
+        const info = instrucoes[escolha];
+        grupo.textContent = info.grupo;
+        linhas.textContent = info.linhas;
+        colunas.textContent = info.colunas;
+        metricas.textContent = metricasPorGrupo[info.grupo.toLowerCase()];
+        filtros.textContent = info.filtros;
+        result.classList.remove("hidden");
+      } else {
+        result.classList.add("hidden");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -19,6 +19,7 @@
       <option value="conversaoSDR">Conversão por SDR</option>
       <option value="ligacoesTempo">Tempo de Ligações</option>
       <option value="leadsOrigem">Leads por Origem</option>
+      <option value="agendamentos">Relatório de Agendamentos</option>
     </select>
   </div>
 
@@ -61,27 +62,38 @@
     const instrucoes = {
       noShow: {
         grupo: "Conversões",
-        linhas: "Etapa do funil",
-        colunas: "SDR responsável",
-        filtros: "Período, Equipe"
+        linhas: "Etapa do funil, SDR responsável",
+        colunas: "Equipe",
+        metricas: "Quantidade, Lead Score",
+        filtros: "Período"
       },
       conversaoSDR: {
         grupo: "Conversões",
-        linhas: "SDR responsável",
-        colunas: "Etapa",
+        linhas: "SDR responsável, Etapa",
+        colunas: "Equipe",
+        metricas: "Quantidade, Lead Score",
         filtros: "Data"
       },
       ligacoesTempo: {
         grupo: "Ligações",
-        linhas: "Usuário",
-        colunas: "Resultado da ligação",
+        linhas: "Usuário, Resultado da ligação",
+        colunas: "Equipe",
+        metricas: "Quantidade de ligações, Tempo de ligação",
         filtros: "Período"
       },
       leadsOrigem: {
         grupo: "Leads",
-        linhas: "Origem do lead",
-        colunas: "Etapa",
+        linhas: "Origem do lead, Etapa",
+        colunas: "Equipe",
+        metricas: "Quantidade de leads",
         filtros: "Data"
+      },
+      agendamentos: {
+        grupo: "Conversões",
+        linhas: "Usuário ação: Nome do usuário que realizou o agendamento; Lead: Nome do lead que teve o agendamento; Vendedor: Nome do vendedor que recebeu o agendamento; Dia: Dia em que a reunião ocorreu; Mês: Mês em que a reunião ocorreu; Ano: Ano em que a reunião ocorreu",
+        colunas: "Sem colunas (deixar em branco)",
+        metricas: "Quantidade: Conversões do lead naquela etapa (se mais de uma, significa reagendamento)",
+        filtros: "Etapa: filtrar apenas a etapa onde o lead recebeu uma conversão de reunião"
       }
     };
 
@@ -92,7 +104,7 @@
         grupo.textContent = info.grupo;
         linhas.textContent = info.linhas;
         colunas.textContent = info.colunas;
-        metricas.textContent = metricasPorGrupo[info.grupo] || "Não definido";
+        metricas.textContent = info.metricas || metricasPorGrupo[info.grupo] || "Não definido";
         filtros.textContent = info.filtros;
         result.classList.remove("hidden");
       } else {

@@ -48,13 +48,13 @@
 
     // Métricas por grupo de dados
     const metricasPorGrupo = {
-      conversoes: "Quantidade, Lead Score",
-      ligacoes: "Quantidade de ligações, Tempo de ligação",
-      respostas: "Quantidade de respostas",
-      leads: "Quantidade de leads",
-      atividades: "Quantidade",
-      dores: "Quantidade",
-      produtos: "Quantidade, Valor"
+      "Conversões": "Quantidade, Lead Score",
+      "Ligações": "Quantidade de ligações, Tempo de ligação",
+      "Respostas": "Quantidade de respostas",
+      "Leads": "Quantidade de leads",
+      "Atividades": "Quantidade",
+      "Dores": "Quantidade",
+      "Produtos": "Quantidade, Valor"
     };
 
     // Relatórios de exemplo (cada um aponta para um grupo de dados)
@@ -92,7 +92,7 @@
         grupo.textContent = info.grupo;
         linhas.textContent = info.linhas;
         colunas.textContent = info.colunas;
-        metricas.textContent = metricasPorGrupo[info.grupo.toLowerCase()];
+        metricas.textContent = metricasPorGrupo[info.grupo] || "Não definido";
         filtros.textContent = info.filtros;
         result.classList.remove("hidden");
       } else {
